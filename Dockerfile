@@ -8,5 +8,5 @@ WORKDIR /code
 
 EXPOSE 8000
 
-ENTRYPOINT ["python", "core/manage.py"]
+ENTRYPOINT ["python", "library_app/manage.py"]
 CMD ["runserver", "0.0.0.0:8000"]
