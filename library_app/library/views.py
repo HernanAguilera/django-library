@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import ListView
+from .models import Book
 
-# Create your views here.
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+class BookListView(ListView):
+    paginate_by = 10
+    model = Book
+    template_name = 'books/list.html'
