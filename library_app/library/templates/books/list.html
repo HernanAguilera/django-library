@@ -25,9 +25,9 @@
     <div class="row">
         {% for book in object_list %}
         <div class="col-sm col-md-4 col-lg-3 mb-2">
-            <div style="display:inline-block; width:200px;" class="card">
+            <div class="card">
                 <a href="/library/{{ book.id }}">
-                    <img src="/media/{{book.cover}}" class="card-img-top" style="max-height: 200px;">
+                    <img src="/media/{{book.cover}}" class="card-img-top">
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">
