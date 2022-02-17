@@ -5,10 +5,28 @@
     {% for book in object_list %}
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text"> {{ book.summay }} </p>
-                <a href="/book/{{book.id}}/edit" class="card-link">Edit</a>
+                <h5 class="card-title">{{ book.name }}</h5>
+                <p class="card-text"> {{ book.summary }} </p>
+                <a href="/library/{{book.id}}/edit" class="card-link">Edit</a>
             </div>
         </div>
     {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock content %}

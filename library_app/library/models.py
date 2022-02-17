@@ -1,16 +1,17 @@
 from django.db import models
+import uuid
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
 def book_image_path(instance, filename):
-    return "books/{}/{}".format(instance.id, filename)
+    return "books/{}.{}".format(uuid.uuid4(), filename.split('.')[-1])
 
 class Book(models.Model):
 
     name = models.CharField(max_length=128, verbose_name=_("name"))
     summary = models.TextField(verbose_name=_("summary"))
     cover = models.ImageField(upload_to=book_image_path, max_length=100, verbose_name=_("cover"))
-    category = models.ManyToManyField("Category", verbose_name=_("category"))
+    categories = models.ManyToManyField("Category", verbose_name=_("category"))
     author = models.ForeignKey("Author", verbose_name=_("author"), on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -33,7 +34,7 @@ class Category(models.Model):
         verbose_name_plural = _("Categories")
 
     def __str__(self):
-        return self.name
+        return self.description
 
     def get_absolute_url(self):
         return reverse("category_detail", kwargs={"pk": self.pk})
