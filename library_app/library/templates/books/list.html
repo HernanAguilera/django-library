@@ -1,0 +1,74 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Books</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="searchInput">Filter by category:</label>
+                <select id="searchSelect" class="form-control">
+                    <option value="">-----------</option>
+                    {% for category in categories %}
+                    <option value="{{category.id}}" {% if category.id == category_searched %} selected {% endif %} >
+                        {{category.description}}
+                    </option>
+                {% endfor %}
+                </select>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% for book in object_list %}
+        <div class="col-sm col-md-4 col-lg-3 mb-2">
+            <div class="card">
+                <a href="/library/{{ book.id }}">
+                    <img src="/media/{{book.cover}}" class="card-img-top">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="/library/{{ book.id }}">
+                            {{ book.name }}
+                        </a>
+                    </h5>
+                    <!-- <p class="card-text"> {{ book.summary }} </p> -->
+                    <a href="/library/{{book.id}}/edit" class="card-link">Edit</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <script>
+        document.querySelector("#searchSelect").addEventListener('change', function(){
+            const category = this.options[this.selectedIndex].value
+            console.log('changed', category)
+            if (category.length === 0)
+                window.location = '/library';
+            else
+                window.location = `/library/?category=${category}`;
+        })
+    </script>
+{% endblock content %}
