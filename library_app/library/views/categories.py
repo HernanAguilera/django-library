@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from ..models import Category
 from ..forms import CategoryForm
@@ -10,6 +10,10 @@ class CategoryListView(ListView):
     paginate_by = 10
     model = Category
     template_name = 'categories/list.html'
+    
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = "categories/detail.html"
     
 class CategoryCrateView(CreateView):
     model = Category

@@ -18,5 +18,5 @@ class CategoryForm(ModelForm):
         model = Category
         fields = ['description']
         widgets = {
-                'category': TextInput(attrs={'class': 'form-control'})
+                'description': TextInput(attrs={'class': 'form-control'})
             }
