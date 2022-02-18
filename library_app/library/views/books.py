@@ -46,7 +46,10 @@ class BookEditView(UpdateView):
     success_url = SUCCESS_URL
     
     def form_valid(self, form):
-        Book.objects.get(pk=self.kwargs['pk']).cover.delete(save=True)
+        try:
+            Book.objects.get(pk=self.kwargs['pk']).cover.delete(save=True)
+        except Exception:
+            pass
         return super().form_valid(form)
 
 class BookDeleteView(DeleteView):
@@ -55,5 +58,8 @@ class BookDeleteView(DeleteView):
     success_url = SUCCESS_URL
     
     def form_valid(self, form):
-        Book.objects.get(pk=self.kwargs['pk']).cover.delete(save=True)
+        try:
+            Book.objects.get(pk=self.kwargs['pk']).cover.delete(save=True)
+        except Exception:
+            pass
         return super().form_valid(form)

@@ -33,6 +33,7 @@ def create_books(n: int):
                 
     return books
 
+
 class BookViewsTest(TestCase):
     
     def test_list_of_books(self):
@@ -60,6 +61,7 @@ class BookViewsTest(TestCase):
         self.assertEqual(response.context['object_list'].count(), 1)
         cover.close()
         
+        
     def test_retrieve_individual_books(self):
         books = create_books(1)
         # print(book.id, book.cover, book.categories.all())
@@ -69,30 +71,30 @@ class BookViewsTest(TestCase):
         self.assertEqual(response.context['object'].id, books[0].id)
         
         
-    # def test_update_book_with_correct_data(self):
-    #     book =create_books(1)
-    #     category = create_category()
-    #     path_to_this_file = os.path.dirname(os.path.realpath(__file__))
-    #     cover = open(os.path.join(path_to_this_file, 'cat.jpg'), 'rb')
+    def test_update_book_with_correct_data(self):
+        book =create_books(1)
+        category = create_category()
+        path_to_this_file = os.path.dirname(os.path.realpath(__file__))
+        cover = open(os.path.join(path_to_this_file, 'cat.jpg'), 'rb')
         
-    #     data = {
-    #         'name': fake.text(max_nb_chars=20),
-    #         'summary': fake.text(),
-    #         'cover': cover,
-    #         'author': '{} {}'.format(fake.first_name(), fake.last_name()),
-    #         'categories': [category.id],
-    #     }
-    #     print('url', reverse('book_edit', args=[book[0].id]))
-    #     response = self.client.post(reverse('book_edit', args=[book[0].id]), data, follow=True)
-    #     print(response.content)
-    #     self.assertEqual(response.status_code, 200)
-    #     # self.assertEqual(response.context['object_list'].count(), 1)
+        data = {
+            'name': fake.text(max_nb_chars=20),
+            'summary': fake.text(),
+            'cover': cover,
+            'author': '{} {}'.format(fake.first_name(), fake.last_name()),
+            'categories': [category.id],
+        }
+        response = self.client.post(reverse('book_edit', args=[book[0].id]), data, follow=True)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['object_list'][0].name, data['name'])
+    
     
     def test_delete_existent_book(self):
         book =create_books(1)
         
         print('url', reverse('book_delete', args=[book[0].id]))
         response = self.client.post(reverse('book_delete', args=[book[0].id]), follow=True)
-        print(response.context)
+        
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Book.objects.count(), 0)
