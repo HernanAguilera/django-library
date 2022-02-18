@@ -5,6 +5,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . code
 WORKDIR /code
+RUN python library_app/manage.py migrate
 
 EXPOSE 8000
 
