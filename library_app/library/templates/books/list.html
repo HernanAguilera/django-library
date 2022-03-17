@@ -1,4 +1,5 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="row">
@@ -6,41 +7,45 @@
             <h1>Books</h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label for="searchInput">Filter by category:</label>
-                <select id="searchSelect" class="form-control">
-                    <option value="">-----------</option>
-                    {% for category in categories %}
-                    <option value="{{category.id}}" {% if category.id == category_searched %} selected {% endif %} >
-                        {{category.description}}
-                    </option>
-                {% endfor %}
-                </select>
-                <hr>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        {% for book in object_list %}
-        <div class="col-sm col-md-4 col-lg-3 mb-2">
-            <div class="card">
-                <a href="/library/{{ book.id }}">
-                    <img src="/media/{{book.cover}}" class="card-img-top">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="/library/{{ book.id }}">
-                            {{ book.name }}
-                        </a>
-                    </h5>
-                    <!-- <p class="card-text"> {{ book.summary }} </p> -->
-                    <a href="/library/{{book.id}}/edit" class="card-link">Edit</a>
+    <div class="row" id="container">
+        <div class="col-12">
+            <div class="row" id="filtros">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="searchInput">Filter by category:</label>
+                        <select id="searchSelect" class="form-control">
+                            <option value="">-----------</option>
+                            {% for category in categories %}
+                            <option value="{{category.id}}" {% if category.id == category_searched %} selected {% endif %} >
+                                {{category.description}}
+                            </option>
+                        {% endfor %}
+                        </select>
+                        <hr>
+                    </div>
                 </div>
             </div>
+            <div class="row" id="lista">
+                {% for book in object_list %}
+                <div class="col-sm col-md-4 col-lg-3 mb-2">
+                    <div class="card">
+                        <a href="/library/{{ book.id }}">
+                            <img src="/media/{{book.cover}}" class="card-img-top">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="/library/{{ book.id }}">
+                                    {{ book.name }}
+                                </a>
+                            </h5>
+                            <!-- <p class="card-text"> {{ book.summary }} </p> -->
+                            <a href="/library/{{book.id}}/edit" class="card-link">Edit</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
     </div>
 
     <div class="pagination">
@@ -61,14 +66,25 @@
         </span>
     </div>
 
-    <script>
-        document.querySelector("#searchSelect").addEventListener('change', function(){
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel" src="{% static 'BookTable.js' %}"></script>
+    <script type="text/babel" src="{% static 'FiltersTable.js' %}"></script>
+    <script type="text/babel" src="{% static 'Container.js' %}"></script>
+    <script type="text/babel">
+        const books = JSON.parse('{{ book_list_json|safe }}');
+        const categories = JSON.parse('{{ categories_json|safe }}');
+
+        ReactDOM.render(<ContainerComponent books={books} categories={categories} />, document.querySelector('#container'));
+
+        /* document.querySelector("#searchSelect").addEventListener('change', function(){
             const category = this.options[this.selectedIndex].value
             console.log('changed', category)
             if (category.length === 0)
                 window.location = '/library';
             else
                 window.location = `/library/?category=${category}`;
-        })
+        }) // */
     </script>
 {% endblock content %}
