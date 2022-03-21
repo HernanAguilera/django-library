@@ -1,0 +1,30 @@
+{
+  "name": "django-library",
+  "version": "1.0.0",
+  "description": "``` bash\r $ docker-compose up\r ```",
+  
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode=development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HernanAguilera/django-library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HernanAguilera/django-library/issues"
+  },
+  "homepage": "https://github.com/HernanAguilera/django-library#readme",
+  "dependencies": {
+    "formik": "^2.2.9",
+    "react": "^17.0.2",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  }
+}

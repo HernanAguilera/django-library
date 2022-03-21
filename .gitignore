@@ -1,4 +1,6 @@
 .venv/
+.idea/
+node_modules/
 
 *.pyc
 *.sqlite3

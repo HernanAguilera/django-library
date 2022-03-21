@@ -69,6 +69,7 @@
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/formik/dist/formik.umd.production.min.js"></script>
     <script type="text/babel" src="{% static 'BookTable.js' %}"></script>
     <script type="text/babel" src="{% static 'FiltersTable.js' %}"></script>
     <script type="text/babel" src="{% static 'Container.js' %}"></script>
@@ -76,15 +77,23 @@
         const books = JSON.parse('{{ book_list_json|safe }}');
         const categories = JSON.parse('{{ categories_json|safe }}');
 
-        ReactDOM.render(<ContainerComponent books={books} categories={categories} />, document.querySelector('#container'));
+        try{
 
-        /* document.querySelector("#searchSelect").addEventListener('change', function(){
-            const category = this.options[this.selectedIndex].value
-            console.log('changed', category)
-            if (category.length === 0)
-                window.location = '/library';
-            else
-                window.location = `/library/?category=${category}`;
-        }) // */
+            ReactDOM.render(
+                <ContainerComponent books={books} categories={categories} />,
+                document.querySelector('#container')
+            );
+        } catch(e) {
+
+             document.querySelector("#searchSelect").addEventListener('change', function(){
+                const category = this.options[this.selectedIndex].value
+                console.log('changed', category)
+                if (category.length === 0)
+                    window.location = '/library';
+                else
+                    window.location = `/library/?category=${category}`;
+            }) // */
+        }
+
     </script>
 {% endblock content %}
